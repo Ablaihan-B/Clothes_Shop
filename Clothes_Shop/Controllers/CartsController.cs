@@ -7,22 +7,46 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Clothes_Online_Shop.Models;
 using Clothes_Shop.Data;
+using Microsoft.AspNetCore.Identity;
 
 namespace Clothes_Shop.Controllers
 {
     public class CartsController : Controller
     {
+        UserManager<IdentityUser> userManager;
+
+        private readonly CartContext _dbContext;
+        private readonly ItemsContext _ItemContext;
         private readonly ApplicationDbContext _context;
 
-        public CartsController(ApplicationDbContext context)
+        public CartsController(CartContext dbContext, ApplicationDbContext context, UserManager<IdentityUser> userManager)
         {
             _context = context;
+            _dbContext = dbContext;
+            this.userManager = userManager;
+
         }
 
         // GET: Carts
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Cart.ToListAsync());
+            var user = await userManager.GetUserAsync(User);
+
+          
+
+            List<Item> cartProducts = new List<Item>();
+
+            var cart = _context.Cart.Where(c => c.User.Id == user.Id).ToListAsync();
+          
+            foreach (var i in cart.Result)
+            {
+                var cart7 = _context.Item.Where(c => c.Id == i.Item.Id).ToListAsync();
+               
+                cartProducts.Add(i.Item);
+            }
+
+            return View(cartProducts);
+            //return View(await _context.Cart.ToListAsync());
         }
 
         // GET: Carts/Details/5
@@ -52,6 +76,10 @@ namespace Clothes_Shop.Controllers
         // POST: Carts/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
+
+        //----------------------------------------------------------------------------------------------//
+        /*
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id")] Cart cart)
@@ -80,6 +108,35 @@ namespace Clothes_Shop.Controllers
             }
             return View(cart);
         }
+        */
+        //------------------------------------------------------------------------------------------//
+
+
+
+        public async Task<IActionResult> Create(string ItemId)
+        {
+            
+            Item item = _context.Item.Find(ItemId);
+
+
+            Console.WriteLine(item);
+            Cart cart = new Cart();
+            var varUser = _context.Users.Where(u => u.Email.Equals(User.Identity.Name));
+            var user = await userManager.GetUserAsync(User);
+            
+            if (ModelState.IsValid)
+            {
+                cart.Id = user.Id + "CART";
+                cart.Item = item;
+                cart.User = user;
+                _context.Add(cart);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return RedirectToAction("Index", cart);
+        }
+
+
 
         // POST: Carts/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
