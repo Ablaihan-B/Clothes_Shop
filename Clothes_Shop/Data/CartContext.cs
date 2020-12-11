@@ -14,6 +14,7 @@ namespace Clothes_Shop.Data
         {
         }
 
+     
         public DbSet<Cart> Carts { get; set; }
 
     }

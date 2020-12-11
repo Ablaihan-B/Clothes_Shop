@@ -38,19 +38,48 @@ namespace Clothes_Shop
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
 
+            services.AddDbContext<CartContext>(options =>
+            {
+                options.UseSqlServer(
+                       Configuration.GetConnectionString("DefaultConnection"));         
+            });
+
+            services.AddDbContext<CategoriesContext>(options =>
+            {
+                options.UseSqlServer(
+                       Configuration.GetConnectionString("DefaultConnection"));              
+            });
+
+            services.AddDbContext<CommentsContext>(options =>
+            {
+                options.UseSqlServer(
+                       Configuration.GetConnectionString("DefaultConnection"));              
+            });
+
+            services.AddDbContext<FeaturesContext>(options =>
+            {
+                options.UseSqlServer(
+                       Configuration.GetConnectionString("DefaultConnection"));
+            });
+
+            services.AddDbContext<GendersContext>(options =>
+            {
+                options.UseSqlServer(
+                       Configuration.GetConnectionString("DefaultConnection"));
+            });
+
+            services.AddDbContext<ItemsContext>(options =>
+            {
+                options.UseSqlServer(
+                       Configuration.GetConnectionString("DefaultConnection"));
+            });
+
             services.AddIdentity<IdentityUser, IdentityRole>()
              .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddMvc();
             services.AddControllersWithViews();
             services.AddRazorPages();
-            /*
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
-            services.AddControllersWithViews();
-            services.AddRazorPages();*/
+     
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -13,11 +13,17 @@ namespace Clothes_Shop.Data
             : base(options)
         {
         }
-        public DbSet<Clothes_Online_Shop.Models.Cart> Cart { get; set; }
-        public DbSet<Clothes_Online_Shop.Models.Category> Category { get; set; }
-        public DbSet<Clothes_Online_Shop.Models.Comments> Comments { get; set; }
-        public DbSet<Clothes_Online_Shop.Models.Features> Features { get; set; }
-        public DbSet<Clothes_Online_Shop.Models.Gender> Gender { get; set; }
-        public DbSet<Clothes_Online_Shop.Models.Item> Item { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+        }
+
+        public DbSet<Cart> Cart { get; set; }
+        public DbSet<Category> Category { get; set; }
+        public DbSet<Comments> Comments { get; set; }
+        public DbSet<Features> Features { get; set; }
+        public DbSet<Gender> Gender { get; set; }
+        public DbSet<Item> Item { get; set; }
     }
 }
