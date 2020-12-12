@@ -1,0 +1,2 @@
+# Clothes_Shop
+My project is an online clothing store. There are 2 main roles on the site: Admin and User. The admin has full access to all functions on the site such as add a new role, delete or change a user, add clothes, a category, etc. Also, for convenient use, a basket and a comment have been developed. The admin can also add, delete or change user comments. All passwords are encrypted and stored in the database like other data. The user can view the product, leave a comment, add the product to the cart.
