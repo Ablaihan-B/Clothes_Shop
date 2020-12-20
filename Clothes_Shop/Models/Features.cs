@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Clothes_Online_Shop.Models
+namespace Clothes_Shop.Models
 {
     public class Features
     {
@@ -21,23 +21,23 @@ namespace Clothes_Online_Shop.Models
 
         public Features() { }
 
-        [Required]
+        //[Required]
         public string Id { get; set; }
        
-        [Required]
-        [StringLength(500, MinimumLength = 1)]
+        //[Required]
+        //[StringLength(500, MinimumLength = 1)]
         public string Description { get; set; }
         
-        [Required]
+        //[Required]
         public string Size { get; set; }
         
-        [Required]
+        //[Required]
         public string Color { get; set; }
         
-        [Required]
+        //[Required]
         public string Material { get; set; }
        
-        [Required]
+        //[Required]
         public string Country { get; set; }
 
     }

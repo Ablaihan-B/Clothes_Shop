@@ -12,6 +12,7 @@ using Clothes_Shop.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Clothes_Shop.Services;
 
 namespace Clothes_Shop
 {
@@ -38,11 +39,7 @@ namespace Clothes_Shop
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddDbContext<CartContext>(options =>
-            {
-                options.UseSqlServer(
-                       Configuration.GetConnectionString("DefaultConnection"));         
-            });
+      
 
             services.AddDbContext<CategoriesContext>(options =>
             {
@@ -74,11 +71,26 @@ namespace Clothes_Shop
                        Configuration.GetConnectionString("DefaultConnection"));
             });
 
+            services.AddDbContext<CartContext>(options =>
+            {
+                options.UseSqlServer(
+                       Configuration.GetConnectionString("DefaultConnection"));
+            });
+
+            services.AddScoped<ItemsService>();
+            services.AddScoped<IItemsRepository, ItemsRepository>();
+            services.AddScoped<ICategoriesRepository, CategoriesRepository>();
+            services.AddScoped<IGendersRepository, GendersRepository>();
+            services.AddScoped<IFeaturesRepository, FeaturesRepository>();
+            services.AddScoped<ICartsRepository, CartsRepository>();
+            services.AddScoped<ICommentsRepository, CommentsRepository>();
+
             services.AddIdentity<IdentityUser, IdentityRole>()
              .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddMvc();
             services.AddControllersWithViews();
             services.AddRazorPages();
+            services.AddSession();
      
         }
 

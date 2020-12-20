@@ -1,4 +1,4 @@
-﻿using Clothes_Online_Shop.Models;
+﻿using Clothes_Shop.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -13,9 +13,12 @@ namespace Clothes_Shop.Data
         public CartContext(DbContextOptions<CartContext> options) : base(options)
         {
         }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
 
-     
-        public DbSet<Cart> Carts { get; set; }
+        }
+
+        public DbSet<Cart> Cart { get; set; }
 
     }
 }

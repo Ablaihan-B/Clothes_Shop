@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Clothes_Online_Shop.Models
+namespace Clothes_Shop.Models
 {
     public class Gender
     {
@@ -16,11 +16,11 @@ namespace Clothes_Online_Shop.Models
         }
         public Gender() { }
 
-        [Required]
+        //[Required]
         public string Id { get; set; }
 
-        [Required]
-        [StringLength(300, MinimumLength = 1)]
+        //[Required]
+        //[StringLength(300, MinimumLength = 1)]
         public string Name { get; set; }
     }
 }

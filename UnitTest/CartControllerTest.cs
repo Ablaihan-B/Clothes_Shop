@@ -1,4 +1,4 @@
-using Clothes_Online_Shop.Models;
+using Clothes_Shop.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;

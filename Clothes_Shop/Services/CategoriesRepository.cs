@@ -1,4 +1,4 @@
-﻿using Clothes_Online_Shop.Models;
+﻿using Clothes_Shop.Models;
 using Clothes_Shop.Data;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -23,15 +23,19 @@ namespace Clothes_Shop.Services
         {
             _appDbContext.Add(category);
         }
+        public Category GetOneById(string id)
+        {
+            return _appDbContext.Find(id);
+        }
 
         public Task<List<Category>> GetAll()
         {
-            return _appDbContext.Categories.ToListAsync();
+            return _appDbContext.Category.ToListAsync();
         }
 
         public Task<List<Category>> GetCategories(Expression<Func<Category, bool>> predicate)
         {
-            return _appDbContext.Categories.Where(predicate).ToListAsync();
+            return _appDbContext.Category.Where(predicate).ToListAsync();
         }
 
         public Task Save()
@@ -39,7 +43,7 @@ namespace Clothes_Shop.Services
             return _appDbContext.SaveChangesAsync();
         }
 
-        public IEnumerable<Category> AllCategories => _appDbContext.Categories;
+        public IEnumerable<Category> AllCategories => _appDbContext.Category;
     
 }
 }

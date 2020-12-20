@@ -1,4 +1,4 @@
-﻿using Clothes_Online_Shop.Models;
+﻿using Clothes_Shop.Models;
 using Clothes_Shop.Data;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -27,18 +27,18 @@ namespace Clothes_Shop.Services
 
         public Task<List<Gender>> GetAll()
         {
-            return _appDbContext.Genders.ToListAsync();
+            return _appDbContext.Gender.ToListAsync();
         }
 
         public Task<List<Gender>> GetGenders(Expression<Func<Gender, bool>> predicate)
         {
-            return _appDbContext.Genders.Where(predicate).ToListAsync();
+            return _appDbContext.Gender.Where(predicate).ToListAsync();
         }
 
         public Task Save()
         {
             return _appDbContext.SaveChangesAsync();
         }
-        public IEnumerable<Gender> AllGenders => _appDbContext.Genders;
+        public IEnumerable<Gender> AllGenders => _appDbContext.Gender;
     }
 }

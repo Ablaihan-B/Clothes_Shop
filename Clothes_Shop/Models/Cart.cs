@@ -5,15 +5,15 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Clothes_Online_Shop.Models
+namespace Clothes_Shop.Models
 {
     public class Cart 
     {
 
-        public Cart(string Id,Item Item, IdentityUser User ) {
+        public Cart(string Id,string ItemId, string UserId) {
             this.Id = Id;
-            this.Item = Item;
-            this.User = User;
+            this.ItemId = ItemId;
+            this.UserId = UserId;
         }
 
         public Cart() {}
@@ -22,10 +22,10 @@ namespace Clothes_Online_Shop.Models
         public string Id { get; set; }
 
         [Required]
-        public Item Item { get; set; }
+        public string ItemId { get; set; }
 
         [Required]
-        public IdentityUser User { get; set; }
+        public string UserId { get; set; }
 
     }
 }

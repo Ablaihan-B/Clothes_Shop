@@ -4,19 +4,20 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Clothes_Online_Shop.Models
+namespace Clothes_Shop.Models
 {
     public class Item
     {
-        public Item(string Id, string Name, Category Category, Features Features, Gender Gender, double Price, string Image)
+        public Item(string Id, string Name, String CategoryId, String FeaturesId, Features Features, String GenderId, double Price, string Image)
         {
             this.Id = Id;
             this.Name = Name;
-            this.Category = Category;
+            this.CategoryId = CategoryId;
             this.Features = Features;
-            this.Gender = Gender;
+            this.GenderId = GenderId;
             this.Price = Price;
             this.Image = Image;
+            this.FeaturesId = FeaturesId;
         }
 
         public Item() { }
@@ -27,16 +28,16 @@ namespace Clothes_Online_Shop.Models
         [Required]
         public string Name { get; set; }
 
-        [Required]
-        public Category Category { get; set; }
+        
+        public string CategoryId { get; set; }
 
-        [Required]
+        public String FeaturesId { get; set; }
         public Features Features { get; set; }
 
-        [Required]
-        public Gender Gender { get; set; }
+        
+        public string GenderId { get; set; }
 
-        [Required]
+       
         public double Price { get; set; }
 
         [Required]

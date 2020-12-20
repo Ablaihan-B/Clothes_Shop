@@ -5,18 +5,22 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Clothes_Online_Shop.Models;
 using Clothes_Shop.Data;
+using Clothes_Shop.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace Clothes_Shop.Controllers
 {
     public class CommentsController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly CommentsContext _context;
 
-        public CommentsController(ApplicationDbContext context)
+        UserManager<IdentityUser> userManager;
+
+        public CommentsController(CommentsContext context, UserManager<IdentityUser> userManager)
         {
             _context = context;
+            this.userManager = userManager;
         }
 
         // GET: Comments
@@ -33,14 +37,14 @@ namespace Clothes_Shop.Controllers
                 return NotFound();
             }
 
-            var comments = await _context.Comments
+            var comment = await _context.Comments
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (comments == null)
+            if (comment == null)
             {
                 return NotFound();
             }
 
-            return View(comments);
+            return View(comment);
         }
 
         // GET: Comments/Create
@@ -54,15 +58,25 @@ namespace Clothes_Shop.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Content")] Comments comments)
+        public async Task<IActionResult> Create([Bind("Content")] Comments comment)
         {
+            var itemId = TempData["itemId"] as string;
+
             if (ModelState.IsValid)
             {
-                _context.Add(comments);
+                DateTime today = DateTime.Now;
+
+                var user = await userManager.GetUserAsync(User);
+
+                comment.Id = user.Id + today.ToString();
+                comment.Author = user.Id;
+                comment.ItemId = itemId;
+
+                _context.Add(comment);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Details", "Items", new { id = itemId });
             }
-            return View(comments);
+            return View(comment);
         }
 
         // GET: Comments/Edit/5
@@ -73,12 +87,12 @@ namespace Clothes_Shop.Controllers
                 return NotFound();
             }
 
-            var comments = await _context.Comments.FindAsync(id);
-            if (comments == null)
+            var comment = await _context.Comments.FindAsync(id);
+            if (comment == null)
             {
                 return NotFound();
             }
-            return View(comments);
+            return View(comment);
         }
 
         // POST: Comments/Edit/5
@@ -86,9 +100,9 @@ namespace Clothes_Shop.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Id,Content")] Comments comments)
+        public async Task<IActionResult> Edit(string id, [Bind("Id,Content")] Comments comment)
         {
-            if (id != comments.Id)
+            if (id != comment.Id)
             {
                 return NotFound();
             }
@@ -97,12 +111,12 @@ namespace Clothes_Shop.Controllers
             {
                 try
                 {
-                    _context.Update(comments);
+                    _context.Update(comment);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CommentsExists(comments.Id))
+                    if (!CommentExists(comment.Id))
                     {
                         return NotFound();
                     }
@@ -113,7 +127,7 @@ namespace Clothes_Shop.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(comments);
+            return View(comment);
         }
 
         // GET: Comments/Delete/5
@@ -124,14 +138,14 @@ namespace Clothes_Shop.Controllers
                 return NotFound();
             }
 
-            var comments = await _context.Comments
+            var comment = await _context.Comments
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (comments == null)
+            if (comment == null)
             {
                 return NotFound();
             }
 
-            return View(comments);
+            return View(comment);
         }
 
         // POST: Comments/Delete/5
@@ -139,13 +153,14 @@ namespace Clothes_Shop.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var comments = await _context.Comments.FindAsync(id);
-            _context.Comments.Remove(comments);
+            var itemId = TempData["itemId"] as string;
+            var comment = await _context.Comments.FindAsync(id);
+            _context.Comments.Remove(comment);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Details", "Items", new { id = itemId });
         }
 
-        private bool CommentsExists(string id)
+        private bool CommentExists(string id)
         {
             return _context.Comments.Any(e => e.Id == id);
         }

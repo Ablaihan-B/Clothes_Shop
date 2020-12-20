@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Clothes_Online_Shop.Models;
+using Clothes_Shop.Models;
 using Clothes_Shop.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

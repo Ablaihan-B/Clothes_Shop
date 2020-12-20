@@ -5,16 +5,17 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Clothes_Online_Shop.Models;
 using Clothes_Shop.Data;
+using Clothes_Shop.Models;
+
 
 namespace Clothes_Shop.Controllers
 {
     public class CategoriesController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly CategoriesContext _context;
 
-        public CategoriesController(ApplicationDbContext context)
+        public CategoriesController(CategoriesContext context)
         {
             _context = context;
         }
@@ -22,8 +23,21 @@ namespace Clothes_Shop.Controllers
         // GET: Categories
         public async Task<IActionResult> Index()
         {
+            ViewData["categories"] = await _context.Category.ToListAsync();
             return View(await _context.Category.ToListAsync());
         }
+
+        /*
+        /// <summary>
+        public string ReturnUrl { get; set; }
+        public async Task OnGetAsync(string returnUrl = null)
+        {
+            ViewData["categories"] = await _context.Categories.ToListAsync();
+            ReturnUrl = returnUrl;
+        }
+        /// </summary>
+
+    */
 
         // GET: Categories/Details/5
         public async Task<IActionResult> Details(string id)

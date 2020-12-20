@@ -1,4 +1,4 @@
-﻿using Clothes_Online_Shop.Models;
+﻿using Clothes_Shop.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -12,9 +12,19 @@ namespace Clothes_Shop.Data
 
         public CategoriesContext(DbContextOptions<CategoriesContext> options) : base(options)
         {
+           
         }
 
-        public DbSet<Category> Categories { get; set; }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+           
+        }
 
+        public DbSet<Category> Category{ get; set; }
+
+        internal Category Find(string id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

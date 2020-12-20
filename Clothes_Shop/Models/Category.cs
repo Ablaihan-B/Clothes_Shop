@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Clothes_Online_Shop.Models
+namespace Clothes_Shop.Models
 {
     public class Category : IValidatableObject
     {
@@ -16,9 +16,11 @@ namespace Clothes_Online_Shop.Models
 
         public Category() { }
 
-        [Required]
+        //[Required]
         public string Id { get; set; }
-        [Required]
+
+
+        //[Required]
         [StringLength(50, MinimumLength = 1)]
         public string Name { get; set; }
 

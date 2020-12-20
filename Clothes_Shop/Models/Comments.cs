@@ -5,32 +5,32 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Clothes_Online_Shop.Models
+namespace Clothes_Shop.Models
 {
     public class Comments : IValidatableObject
     {
-        public Comments(string Id, string Content, Item Item , IdentityUser Author)
+        public Comments(string Id, string Content, string Item , string Author)
         {
             this.Id = Id;
             this.Content = Content;
-            this.Item = Item;
+            this.ItemId = ItemId;
             this.Author = Author;
         }
 
         public Comments() { }
 
-        [Required]
+        
         public string Id { get; set; }
        
-        [Required]
+        
         [StringLength(300, MinimumLength = 1)]
         public string Content { get; set; }
        
-        [Required]
-        public Item Item  { get; set; }
        
-        [Required]
-        public IdentityUser Author { get; set; }
+        public string ItemId  { get; set; }
+       
+        
+        public string Author { get; set; }
 
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

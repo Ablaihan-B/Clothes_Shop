@@ -1,4 +1,4 @@
-﻿using Clothes_Online_Shop.Models;
+﻿using Clothes_Shop.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -14,6 +14,6 @@ namespace Clothes_Shop.Data
         {
         }
 
-        public DbSet<Gender> Genders { get; set; }
+        public DbSet<Gender> Gender { get; set; }
     }
 }

@@ -5,16 +5,16 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Clothes_Online_Shop.Models;
+using Clothes_Shop.Models;
 using Clothes_Shop.Data;
 
 namespace Clothes_Shop.Controllers
 {
     public class GendersController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly GendersContext _context;
 
-        public GendersController(ApplicationDbContext context)
+        public GendersController(GendersContext context)
         {
             _context = context;
         }

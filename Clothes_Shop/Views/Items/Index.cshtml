@@ -1,47 +1,184 @@
-﻿@model IEnumerable<Clothes_Online_Shop.Models.Item>
+﻿<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
+@model IEnumerable<Clothes_Shop.Models.Item>
+<!--model IEnumerable<FINAL_DOT_NET.ViewModels.GoodsViewModel>-->
 @{
     ViewData["Title"] = "Index";
+    
 }
 
-<h1>Index</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Price)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Image)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Image)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
+
+
+<h1 style="text-align:center">Clothes</h1>
+
+@if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+{
+    <p style="text-align:center">
+        <a asp-action="Create">Create New</a>
+    </p>
 }
-    </tbody>
-</table>
+
+
+
+
+<div class="row" style="margin-top:50px">
+
+    <div class="column">
+        <form asp-action="Search" style="margin-bottom:-40px">
+
+            <div class="row">
+                <input name="text" type="text" class="form-control" style="width:300px;margin-left:760px" />
+                <input type="submit" value="Search" class="btn btn-primary" style="margin-left:5px" />
+            </div>
+
+        </form>
+    </div>
+
+
+
+    <div class="column">
+        <form asp-action="Filter" style="margin-left:400px;margin-top:-23px">
+
+            <div class="row">
+                <div class="form-group">
+                    <label name="CategoryId"></label>
+                    <select name="CategoryId" class="form-control" asp-items="@ViewBag.Category"></select>
+                </div>
+
+                <div class="form-group">
+                    <label name="GenderId"></label>
+                    <select name="GenderId" class="form-control" asp-items="@ViewBag.Gender"></select>
+                </div>
+
+                <div class="form-group">
+                    <label name="SizeId" class="control-label"></label>
+                    <select name="SizeId" id="SizeId" class="form-control">
+                        <option value="XS">XS</option>
+                        <option value="S">S</option>
+                        <option value="M">M</option>
+                        <option value="L">L</option>
+                        <option value="XL">XL</option>
+                        <option value="XXL">XXL</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" value="Filter" class="btn btn-primary" style="margin-left:5px;margin-top:24px" />
+                </div>
+
+            </div>
+
+        </form>
+    </div>
+    </div>
+
+
+    <style>
+
+        .card-product:after {
+            content: "";
+            display: table;
+            clear: both;
+            visibility: hidden;
+        }
+
+        .card-product .price-new, .card-product .price {
+            margin-right: 5px;
+        }
+
+        .card-product .price-old {
+            color: #999;
+        }
+
+        .card-product .img-wrap {
+            border-radius: 3px 3px 0 0;
+            overflow: hidden;
+            position: relative;
+            height: 220px;
+            text-align: center;
+        }
+
+            .card-product .img-wrap img {
+                max-height: 100%;
+                max-width: 100%;
+                object-fit: cover;
+            }
+
+        .card-product .info-wrap {
+            overflow: hidden;
+            padding: 15px;
+            border-top: 1px solid #eee;
+        }
+
+        .card-product .action-wrap {
+            padding-top: 4px;
+            margin-top: 4px;
+        }
+
+        .card-product .bottom-wrap {
+            padding: 15px;
+            border-top: 1px solid #eee;
+        }
+
+        .card-product .title {
+            margin-top: 0;
+        }
+    </style>
+
+
+
+    <div class="container" style="margin-left: 55px;margin-top: 70px;margin-bottom: 100px">
+
+        <div class="row">
+
+
+
+            @foreach (var item in Model)
+            {
+                <a asp-action="Details" asp-route-id="@item.Id" style="cursor: pointer;">
+                    <div>
+                        <figure class="card card-product" style="width: 220px;margin-left: 30px">
+                            <div class="img-wrap">
+                                <img class="product__image" src="~/images/@item.Image" />
+
+
+                            </div>
+
+
+                            <figcaption class="info-wrap">
+                                <h6 class="title text-dots">
+                                    <a asp-action="Details" asp-route-id="@item.Id">
+                                        @Html.DisplayFor(modelItem => item.Name)
+                                    </a>
+
+                                </h6>
+                                <h7>
+                                    @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                                    {
+                                        <a asp-action="Edit" asp-route-id="@item.Id">Edit |</a>
+                                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                                    }
+                                </h7>
+
+                                <div class="action-wrap">
+                                    <a asp-controller="Carts" asp-action="Create" asp-route-GoodId="@item.Id" class="btn btn-primary btn-sm float-right">Add to cart</a>
+
+
+
+                                    <div class="price-wrap h5">
+                                        US $ @Html.DisplayFor(modelItem => item.Price)
+                                    </div> <!-- price-wrap.// -->
+                                </div> <!-- action-wrap -->
+                            </figcaption>
+                        </figure> <!-- card // -->
+
+                    </div>
+                </a>
+            }
+
+
+
+        </div>
+
+    </div>

@@ -1,4 +1,4 @@
-﻿using Clothes_Online_Shop.Models;
+﻿using Clothes_Shop.Models;
 using Clothes_Shop.Data;
 using Microsoft.EntityFrameworkCore;
 using System;
